@@ -69,6 +69,12 @@ function Login({ setIsLoggedIn }) {
       );
 
       if (user) {
+        // Kiểm tra tài khoản đã được xác nhận chưa
+        if (!user.verified) {
+          setMessage('Vui lòng xác nhận tài khoản');
+          return;
+        }
+
         // Lưu thông tin user vào localStorage
         localStorage.setItem(
           'user',

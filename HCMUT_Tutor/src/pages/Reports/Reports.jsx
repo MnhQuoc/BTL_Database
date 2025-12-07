@@ -6,6 +6,7 @@ import './Reports.css';
 const Reports = () => {
   const [userRole, setUserRole] = useState('');
   const [courses, setCourses] = useState([]);
+  const [tutorCourses, setTutorCourses] = useState([]);
   const [users, setUsers] = useState([]);
   const [orders, setOrders] = useState([]);
   const [activeTab, setActiveTab] = useState('progress'); // 'overview' or 'progress'
@@ -30,8 +31,9 @@ const Reports = () => {
     const fetchData = async () => {
       try {
         // Fetch all required data
-        const [coursesRes, usersRes] = await Promise.allSettled([
+        const [coursesRes, tutorCoursesRes, usersRes] = await Promise.allSettled([
           axios.get('http://localhost:3001/courses'),
+          axios.get('http://localhost:3001/tutorCourses'),
           axios.get('http://localhost:3001/users')
         ]);
 
@@ -46,12 +48,16 @@ const Reports = () => {
         const coursesData = coursesRes.status === 'fulfilled' 
           ? (coursesRes.value.data || [])
           : [];
+        const tutorCoursesData = tutorCoursesRes.status === 'fulfilled'
+          ? (tutorCoursesRes.value.data || [])
+          : [];
         const usersData = usersRes.status === 'fulfilled'
           ? (usersRes.value.data || [])
           : [];
         const ordersData = ordersRes.data || [];
 
         setCourses(coursesData);
+        setTutorCourses(tutorCoursesData);
         setUsers(usersData);
         setOrders(ordersData);
       } catch (err) {
@@ -69,51 +75,22 @@ const Reports = () => {
     return tutor?.fullName || tutor?.name || tutor?.username || '—';
   };
 
-  // Get student name from orders
-  const getStudentName = (courseId, tutorId) => {
-    // Find order that matches this course and tutor
-    const matchingOrder = orders.find(order => {
-      if (order.tutorId !== tutorId?.toString()) return false;
-      
-      if (order.items && Array.isArray(order.items)) {
-        return order.items.some(item => {
-          const itemCourseId = item.foodId || item.id;
-          return itemCourseId && courseId && itemCourseId.toString() === courseId.toString();
-        });
-      }
-      return false;
-    });
-
-    if (matchingOrder && matchingOrder.userId) {
-      const student = users.find(u => u.id === matchingOrder.userId.toString());
-      return student?.fullName || student?.name || student?.username || '—';
-    }
-
-    return '—';
-  };
-
   // Generate report data
   const reportData = useMemo(() => {
     if (activeTab === 'progress') {
       // Báo cáo tiến độ và kết quả học tập sinh viên
+      // Hiển thị tất cả khóa học từ tutorCourses
       const data = [];
       
-      courses.forEach((course, index) => {
-        const studentName = getStudentName(course.id, course.tutorId);
-        
-        // Only include courses that have students
-        if (studentName !== '—') {
-          data.push({
-            stt: index + 1,
-            courseName: course.name || '—',
-            tutor: getTutorName(course.tutorId),
-            student: studentName,
-            status: course.status || '—',
-            sessionsAttended: '—', // Placeholder - can be calculated from attendance data
-            sessionsAbsent: '—', // Placeholder
-            score: '—' // Placeholder
-          });
-        }
+      tutorCourses.forEach((course, index) => {
+        data.push({
+          stt: index + 1,
+          courseName: course.name || '—',
+          tutor: getTutorName(course.tutorId),
+          status: course.status || '—',
+          sessionsAttended: '—', // Placeholder - can be calculated from attendance data
+          sessionsAbsent: '—' // Placeholder
+        });
       });
 
       return data;
@@ -121,7 +98,7 @@ const Reports = () => {
       // Thống kê tổng quan khóa học
       return [];
     }
-  }, [courses, users, orders, activeTab]);
+  }, [tutorCourses, users, activeTab]);
 
   if (userRole !== 'admin') {
     return null;
@@ -167,17 +144,15 @@ const Reports = () => {
                     <th>STT</th>
                     <th>Khóa học</th>
                     <th>Tutor</th>
-                    <th>Student</th>
                     <th>Trạng thái môn học</th>
                     <th>Số buổi học</th>
                     <th>Số buổi nghỉ</th>
-                    <th>Điểm số</th>
                   </tr>
                 </thead>
                 <tbody>
                   {reportData.length === 0 ? (
                     <tr>
-                      <td colSpan="8" className="reports-empty">
+                      <td colSpan="6" className="reports-empty">
                         Chưa có dữ liệu để hiển thị
                       </td>
                     </tr>
@@ -187,11 +162,9 @@ const Reports = () => {
                         <td>{row.stt}</td>
                         <td>{row.courseName}</td>
                         <td>{row.tutor}</td>
-                        <td>{row.student}</td>
                         <td>{row.status}</td>
                         <td>{row.sessionsAttended}</td>
                         <td>{row.sessionsAbsent}</td>
-                        <td>{row.score}</td>
                       </tr>
                     ))
                   )}

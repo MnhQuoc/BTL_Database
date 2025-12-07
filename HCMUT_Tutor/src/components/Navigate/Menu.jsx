@@ -230,21 +230,9 @@ const Menu = () => {
 
   // Get list of tutors from courses (to show all available tutors)
   const tutors = useMemo(() => {
-    // Use courses if available (more complete), otherwise use tutorCourses
-    const allCourses = courses.length > 0 ? courses : tutorCourses;
-    
-    // Get unique tutorIds from courses
-    const tutorIdsFromCourses = [...new Set(
-      allCourses
-        .filter(course => course.tutorId)
-        .map(course => course.tutorId.toString())
-    )];
-    
-    // Return tutors that have courses - filter by role and tutorId
-    return users.filter(u => 
-      u.role === 'tutor' && tutorIdsFromCourses.includes(u.id.toString())
-    );
-  }, [users, courses, tutorCourses]);
+    // Return all tutors with role 'tutor' - show all tutors, not just those with courses
+    return users.filter(u => u.role === 'tutor');
+  }, [users]);
 
   // Get classes for selected tutor
   const tutorClasses = useMemo(() => {
@@ -318,29 +306,8 @@ const Menu = () => {
               </div>
 
               <div className="admin-calendar-section">
-                <div className="admin-week-buttons">
-                  <button
-                    className={`admin-week-btn ${weekView === 'first' ? 'active' : ''}`}
-                    onClick={() => setWeekView('first')}
-                  >
-                    Tuần đầu
-                  </button>
-                  <button
-                    className={`admin-week-btn ${weekView === 'this' ? 'active' : ''}`}
-                    onClick={() => setWeekView('this')}
-                  >
-                    Tuần này
-                  </button>
-                  <button
-                    className={`admin-week-btn ${weekView === 'last' ? 'active' : ''}`}
-                    onClick={() => setWeekView('last')}
-                  >
-                    Tuần cuối
-                  </button>
-                </div>
-
                 <div className="admin-month-year">
-                  Tháng {currentDate.getMonth() + 1}, {currentDate.getFullYear()}
+                  Lịch dạy
                 </div>
 
                 <div className="admin-calendar-grid">
@@ -377,45 +344,6 @@ const Menu = () => {
       </div>
     );
   }
-
-  // Regular user view (original)
-  return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Menu món ăn</h2>
-
-      <div className="row">
-        {foods.map((food) => (
-          <div className="col-md-4 mb-4" key={food.id}>
-            <div className="card h-100">
-              <img
-                src={food.image || 'https://via.placeholder.com/150'}
-                className="card-img-top"
-                alt={food.name}
-              />
-              <div className="card-body">
-                <h5 className="card-title">{food.name}</h5>
-                <p className="card-text">{food.note}</p>
-                <p className="card-text">
-                  <strong>Phí DV:</strong> {food.serviceFee}đ
-                </p>
-                <div className="d-flex justify-content-center">
-                  <button
-                    className="btn btn-sm btn-info"
-                    onClick={() => navigate(`/courses/${food.id}`)}
-                  >
-                    <FaEye /> Xem chi tiết
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-        {foods.length === 0 && (
-          <div className="text-center mt-4 text-muted">Không tìm thấy món ăn nào.</div>
-        )}
-      </div>
-    </div>
-  );
-};
+}
 
 export default Menu;

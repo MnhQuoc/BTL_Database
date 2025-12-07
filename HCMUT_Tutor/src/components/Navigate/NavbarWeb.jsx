@@ -28,6 +28,8 @@ const NavbarWeb = () => {
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [showNotif, setShowNotif] = useState(false);
+  const [tutorCourses, setTutorCourses] = useState([]);
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -45,7 +47,8 @@ const NavbarWeb = () => {
     const user = localStorage.getItem("user");
     if (user) {
       const parsedUser = JSON.parse(user);
-      setUsername(parsedUser.username);
+      // Hiển thị name thay vì username
+      setUsername(parsedUser.name || parsedUser.fullName || parsedUser.username || "");
       setRole(parsedUser.role);
       setIsLoggedIn(true); 
     } else {
@@ -63,20 +66,57 @@ const NavbarWeb = () => {
     try {
       const parsed = JSON.parse(userStr);
       if (!parsed || !parsed.id) return;
-      fetch(`http://localhost:3001/orders?userId=${parsed.id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          // sort by createdAt desc and keep recent 5
-          const sorted = Array.isArray(data)
-            ? data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-            : [];
-          setNotifications(sorted.slice(0, 5));
-        })
-        .catch((err) => console.error("Error fetching notifications:", err));
+
+      // Fetch tutorCourses và users để lấy thông tin
+      Promise.all([
+        fetch('http://localhost:3001/tutorCourses').then(res => res.json()),
+        fetch('http://localhost:3001/users').then(res => res.json())
+      ]).then(([coursesData, usersData]) => {
+        setTutorCourses(coursesData || []);
+        setUsers(usersData || []);
+
+        // Fetch orders dựa vào role
+        if (parsed.role === 'user') {
+          // User: lấy orders của chính user đó
+          fetch(`http://localhost:3001/orders?userId=${parsed.id}`)
+            .then((res) => res.json())
+            .then((data) => {
+              const sorted = Array.isArray(data)
+                ? data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                : [];
+              setNotifications(sorted.slice(0, 5));
+            })
+            .catch((err) => console.error("Error fetching notifications:", err));
+        } else if (parsed.role === 'tutor') {
+          // Tutor: lấy orders có tutorId = tutor.id
+          fetch(`http://localhost:3001/orders?tutorId=${parsed.id}`)
+            .then((res) => res.json())
+            .then((data) => {
+              const sorted = Array.isArray(data)
+                ? data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                : [];
+              setNotifications(sorted.slice(0, 5));
+            })
+            .catch((err) => console.error("Error fetching notifications:", err));
+        }
+      }).catch((err) => console.error("Error fetching data:", err));
     } catch (e) {
       console.error("Error parsing user from localStorage", e);
     }
   }, [isLoggedIn]);
+  // Helper functions để lấy thông tin
+  const getCourseName = (courseId) => {
+    if (!courseId) return '—';
+    const course = tutorCourses.find(c => c.id === courseId.toString());
+    return course?.name || '—';
+  };
+
+  const getUserName = (userId) => {
+    if (!userId) return '—';
+    const user = users.find(u => u.id === userId.toString());
+    return user?.name || user?.fullName || user?.username || '—';
+  };
+
   // inline logout to avoid referencing removed functions
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -161,25 +201,31 @@ const NavbarWeb = () => {
                               Không có thông báo
                             </div>
                           ) : (
-                            notifications.map((n) => (
-                              <div
-                                key={n.id}
-                                style={{
-                                  padding: 10,
-                                  borderBottom: "1px solid #f1f1f1",
-                                }}
-                              >
-                                <div style={{ fontSize: 14, fontWeight: 600 }}>
-                                  Thông báo #{n.id}
+                            notifications.map((n) => {
+                              // Lấy tutorCoursesID từ order (hỗ trợ cả cấu trúc cũ và mới)
+                              const courseId = n.tutorCoursesID || (n.items && n.items[0] && (n.items[0].foodId || n.items[0].id));
+                              const courseName = getCourseName(courseId);
+                              const studentName = getUserName(n.userId);
+                              
+                              return (
+                                <div
+                                  key={n.id}
+                                  style={{
+                                    padding: 10,
+                                    borderBottom: "1px solid #f1f1f1",
+                                  }}
+                                >
+                                  <div style={{ fontSize: 14, fontWeight: 600 }}>
+                                    {studentName} đã đăng ký khóa học "{courseName}"
+                                  </div>
+                                  <div style={{ fontSize: 12, color: "#666" }}>
+                                    {n.createdAt
+                                      ? new Date(n.createdAt).toLocaleString()
+                                      : ""}
+                                  </div>
                                 </div>
-                                <div style={{ fontSize: 12, color: "#666" }}>
-                                  {n.status} •{" "}
-                                  {n.createdAt
-                                    ? new Date(n.createdAt).toLocaleString()
-                                    : ""}
-                                </div>
-                              </div>
-                            ))
+                              );
+                            })
                           )}
                         </div>
                         <div style={{ padding: 8, textAlign: "center" }}>
@@ -246,34 +292,30 @@ const NavbarWeb = () => {
                               Không có thông báo
                             </div>
                           ) : (
-                            notifications.map((n) => (
-                              <div
-                                key={n.id}
-                                style={{
-                                  padding: 10,
-                                  borderBottom: "1px solid #f1f1f1",
-                                }}
-                              >
-                                <div style={{ fontSize: 14, fontWeight: 600 }}>
-                                  Đơn hàng #{n.id}
+                            notifications.map((n) => {
+                              // Lấy tutorCoursesID từ order (hỗ trợ cả cấu trúc cũ và mới)
+                              const courseId = n.tutorCoursesID || (n.items && n.items[0] && (n.items[0].foodId || n.items[0].id));
+                              const courseName = getCourseName(courseId);
+                              
+                              return (
+                                <div
+                                  key={n.id}
+                                  style={{
+                                    padding: 10,
+                                    borderBottom: "1px solid #f1f1f1",
+                                  }}
+                                >
+                                  <div style={{ fontSize: 14, fontWeight: 600 }}>
+                                    Đăng ký thành công khóa học "{courseName}"
+                                  </div>
+                                  <div style={{ fontSize: 12, color: "#666" }}>
+                                    {n.createdAt
+                                      ? new Date(n.createdAt).toLocaleString()
+                                      : ""}
+                                  </div>
                                 </div>
-                                <div style={{ fontSize: 13 }}>
-                                  Tổng:{" "}
-                                  {n.total ||
-                                  n.totalAmount ||
-                                  n.totalAmount === 0
-                                    ? n.total || n.totalAmount
-                                    : ""}{" "}
-                                  VNĐ
-                                </div>
-                                <div style={{ fontSize: 12, color: "#666" }}>
-                                  {n.status} •{" "}
-                                  {n.createdAt
-                                    ? new Date(n.createdAt).toLocaleString()
-                                    : ""}
-                                </div>
-                              </div>
-                            ))
+                              );
+                            })
                           )}
                         </div>
                         <div style={{ padding: 8, textAlign: "center" }}>
@@ -338,15 +380,6 @@ const NavbarWeb = () => {
                     className="text-dark"
                   >
                     Hồ sơ
-                  </NavDropdown.Item>
-                )}
-                {role === "tutor" && (
-                  <NavDropdown.Item
-                    as={NavLink}
-                    to="/orderlist"
-                    className="text-dark"
-                  >
-                    Khóa học đã mở
                   </NavDropdown.Item>
                 )}
                 {role === "admin" && (

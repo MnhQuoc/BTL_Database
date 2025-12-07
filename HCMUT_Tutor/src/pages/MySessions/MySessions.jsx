@@ -6,6 +6,7 @@ import './MySessions.css';
 
 const MySessions = () => {
   const [myCourses, setMyCourses] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('Đang học');
   const [userRole, setUserRole] = useState('');
@@ -43,13 +44,25 @@ const MySessions = () => {
         }
 
         // Nếu là user: lấy các khóa học đã đăng ký (từ orders)
-        const ordersRes = await fetch(`http://localhost:3001/orders?userId=${currentUser.id}`);
+        const [ordersRes, usersRes] = await Promise.all([
+          fetch(`http://localhost:3001/orders?userId=${currentUser.id}`),
+          fetch('http://localhost:3001/users')
+        ]);
+        
         const orders = await ordersRes.json();
+        const usersData = await usersRes.json();
+        setUsers(usersData);
 
         // Lấy tất cả courseId từ orders
         const courseIds = [];
         orders.forEach(order => {
-          if (order.items && Array.isArray(order.items)) {
+          // Hỗ trợ cả cấu trúc cũ (items) và mới (tutorCoursesID)
+          if (order.tutorCoursesID) {
+            const courseId = order.tutorCoursesID.toString();
+            if (!courseIds.includes(courseId)) {
+              courseIds.push(courseId);
+            }
+          } else if (order.items && Array.isArray(order.items)) {
             order.items.forEach(item => {
               // Check both foodId (from db.json format) and id (from new orders)
               const courseId = item.foodId || item.id;
@@ -60,12 +73,12 @@ const MySessions = () => {
           }
         });
 
-        // Fetch courses
-        const coursesRes = await fetch('http://localhost:3001/courses');
-        const allCourses = await coursesRes.json();
+        // Fetch tutorCourses thay vì courses vì đăng ký sử dụng tutorCourse.id
+        const tutorCoursesRes = await fetch('http://localhost:3001/tutorCourses');
+        const allTutorCourses = await tutorCoursesRes.json();
 
-        // Lọc courses theo courseIds
-        const enrolledCourses = allCourses.filter(course => 
+        // Lọc tutorCourses theo courseIds
+        const enrolledCourses = allTutorCourses.filter(course => 
           courseIds.includes(course.id.toString())
         );
 
@@ -84,12 +97,20 @@ const MySessions = () => {
   const parseSchedule = (openTime, courseId) => {
     if (!openTime) return [];
     
-    // Format: "Thứ 2, 4, 6 - 7:00-9:00" hoặc tương tự
+    // Format: "Thứ 2, 4, 6 - 7:00-9:00" hoặc "Chủ nhật - 7:00-9:00" hoặc "Thứ 2, Chủ nhật - 7:00-9:00"
     const parts = openTime.split(' - ');
     if (parts.length < 2) return [];
 
-    const daysPart = parts[0].replace('Thứ ', '').trim();
+    let daysPart = parts[0].trim();
     const timePart = parts[1].trim();
+    
+    // Xử lý "Chủ nhật" riêng
+    const isSundayOnly = daysPart === 'Chủ nhật';
+    if (isSundayOnly) {
+      daysPart = 'CN';
+    } else if (daysPart.startsWith('Thứ ')) {
+      daysPart = daysPart.replace('Thứ ', '');
+    }
     
     const days = daysPart.split(',').map(d => d.trim());
     const [startTime, endTime] = timePart.split('-').map(t => t.trim());
@@ -110,11 +131,15 @@ const MySessions = () => {
     // Deterministic online/offline based on courseId for consistency
     const isOnline = parseInt(courseId) % 3 !== 0;
 
-    return days.map(day => ({
-      day: `Thứ ${day}`,
-      time: `${formatTime(startTime)} - ${formatTime(endTime)}`,
-      isOnline: isOnline
-    }));
+    return days.map(day => {
+      // Xử lý "Chủ nhật" hoặc "CN"
+      const dayDisplay = (day === 'CN' || day === 'Chủ nhật') ? 'Chủ nhật' : `Thứ ${day}`;
+      return {
+        day: dayDisplay,
+        time: `${formatTime(startTime)} - ${formatTime(endTime)}`,
+        isOnline: isOnline
+      };
+    });
   };
 
   if (loading) {
@@ -138,7 +163,9 @@ const MySessions = () => {
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           >
-            <option value="Đang học">Đang học</option>
+            <option value="Đang học">
+              {userRole === 'tutor' ? 'Đang dạy' : 'Đang học'}
+            </option>
             <option value="Đã hoàn thành">Đã hoàn thành</option>
             <option value="Tất cả">Tất cả</option>
           </select>
@@ -182,7 +209,12 @@ const MySessions = () => {
                   <FaLightbulb />
                 </div>
                 <h3 className="course-title">{course.name}</h3>
-                <p className="course-instructor">{course.restname}</p>
+                <p className="course-instructor">
+                  {(() => {
+                    const tutor = users.find(u => u.id === course.tutorId?.toString());
+                    return tutor?.name || tutor?.fullName || tutor?.username || course.restname || '—';
+                  })()}
+                </p>
                 
                 <div className="course-schedules">
                   {schedules.map((schedule, idx) => (

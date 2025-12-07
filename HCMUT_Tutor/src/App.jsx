@@ -17,7 +17,6 @@ import ChangeInfo from './pages/ChangeInfo/ChangeInfo.jsx';
 import OrderList from './pages/TutorList/OrderList.jsx';
 import OrderDetail from './pages/TutorList/OrderDetail.jsx';
 import Verify from './pages/Verify/Verify.jsx';
-// import ExploreSection from './pages/Content/ExploreSection';
 import AddFoodItem from './components/Addfood/AddFoodItem.jsx';
 import ListFood from './components/Listfood/ListFood.jsx';
 import FoodEdit from './components/Editfood/EditFood.jsx';

@@ -64,7 +64,7 @@
     {
       "id": "1745349964177",
       "username": "usertest2",
-      "email": "albumanh1234copy@gmail.com",
+      "email": "albumanh1234@gmail.com",
       "phone": "01248124124",
       "password": "user1234",
       "role": "user",
@@ -88,15 +88,20 @@
     {
       "id": "1745348611792",
       "username": "usertest1",
-      "email": "albumanh1234copy@gmail.com",
-      "phone": "02149293486",
+      "email": "quocne@gmail.com",
+      "phone": "0214929348",
       "password": "user1234",
       "role": "tutor",
       "blocked": false,
       "verified": true,
       "birthYear": 1995,
-      "address": "Cầu Giấy",
-      "time": "8AM-12PM"
+      "address": "aa, aa, aa, aa",
+      "time": "8AM-12PM",
+      "name": "Quốc nè",
+      "city": "aa",
+      "district": "aa",
+      "ward": "aa",
+      "streetAddress": "aa"
     },
     {
       "id": "1745421209258",
@@ -109,47 +114,7 @@
       "verified": true,
       "name": "Tuấn",
       "birthYear": 1998,
-      "city": "Hà Nội",
-      "district": "Cầu Giayas",
-      "ward": "Quan Hoa",
-      "streetAddress": "Số 16",
-      "address": "Số 16, Quan Hoa, Cầu Giayas, Hà Nội",
       "time": "11AM-2PM"
-    },
-    {
-      "id": "1760514427208",
-      "username": "4545454545",
-      "password": "quoc851032",
-      "phone": "0123456781",
-      "email": "aaa@gmail.com",
-      "role": "user",
-      "blocked": false,
-      "verified": false,
-      "birthYear": 2000
-    },
-    {
-      "id": "1761580014000",
-      "username": "usertest",
-      "password": "user1234",
-      "fullName": "Nguyễn Minh Quốc",
-      "birthYear": 2005,
-      "email": "nguyenminhquoctft81@gmail.com",
-      "phone": "0978870124",
-      "role": "user",
-      "blocked": false,
-      "verified": true
-    },
-    {
-      "id": "1762694038174",
-      "username": "test1234",
-      "password": "test1234",
-      "fullName": "Nguyễn Văn A",
-      "birthYear": 2005,
-      "email": "nguyenminhquoctft81copy@gmail.com",
-      "phone": "0978870124",
-      "role": "user",
-      "blocked": false,
-      "verified": false
     },
     {
       "id": "1762694112409",
@@ -791,7 +756,7 @@
       "id": "1764488138077",
       "username": "tutor3",
       "password": "tutor1234",
-      "fullName": "Dương Thị Hoa",
+      "fullName": "Dương Thị Hạ",
       "birthYear": 1997,
       "email": "nhom5cnpmtutor3@gmail.com",
       "phone": "01025652452",
@@ -875,11 +840,23 @@
       "id": "1764488145077",
       "username": "tutor10",
       "password": "tutor1234",
-      "fullName": "Phạm Thị Dung",
+      "fullName": "Phạm Thị Kiều",
       "birthYear": 1999,
       "email": "nhom5cnpmtutor10@gmail.com",
       "phone": "0951153974",
       "role": "tutor",
+      "blocked": false,
+      "verified": true
+    },
+    {
+      "id": "1765131249920",
+      "username": "quoctest1",
+      "password": "quoc1234",
+      "fullName": "Nguyễn Minh Quốc",
+      "birthYear": 2001,
+      "email": "nguyenminhquoctft81@gmail.com",
+      "phone": "0978870124",
+      "role": "user",
       "blocked": false,
       "verified": true
     }
@@ -944,405 +921,51 @@
   ],
   "orders": [
     {
-      "id": "1",
+      "id": "5781",
       "userId": "1745293587693",
-      "username": "nhanhnhen",
       "tutorId": "1745421209258",
-      "items": [
-        {
-          "foodId": "2",
-          "quantity": 2
-        },
-        {
-          "foodId": "2",
-          "quantity": 2
-        }
-      ],
-      "totalAmount": 139399,
-      "status": "Chờ xác nhận",
-      "createdAt": "2025-05-01T02:02:43.058Z"
+      "tutorCoursesID": "f6fa",
+      "createdAt": "2025-12-07T17:30:10.464Z"
     },
     {
-      "id": "2",
+      "id": "9439",
       "userId": "1745293587693",
-      "username": "nhanhnhen",
       "tutorId": "1745348611792",
-      "items": [
-        {
-          "foodId": "2",
-          "quantity": 3
-        },
-        {
-          "foodId": "2",
-          "quantity": 2
-        }
-      ],
-      "totalAmount": 156635,
-      "status": "Chờ xác nhận",
-      "createdAt": "2025-05-02T02:02:43.058Z"
+      "tutorCoursesID": "d88f",
+      "createdAt": "2025-12-07T17:40:42.712Z"
     },
     {
-      "id": "3",
+      "id": "4056",
       "userId": "1745293587693",
-      "username": "nhanhnhen",
-      "tutorId": "1745348611792",
-      "items": [
-        {
-          "foodId": "2",
-          "quantity": 3
-        },
-        {
-          "foodId": "2",
-          "quantity": 1
-        }
-      ],
-      "totalAmount": 194515,
-      "status": "Chờ xác nhận",
-      "createdAt": "2025-05-01T02:02:43.058Z"
-    },
-    {
-      "id": "4",
-      "userId": "1745293587693",
-      "username": "nhanhnhen",
-      "tutorId": "1745348611792",
-      "items": [
-        {
-          "foodId": "2",
-          "quantity": 2
-        },
-        {
-          "foodId": "2",
-          "quantity": 1
-        }
-      ],
-      "totalAmount": 83643,
-      "status": "Chờ xác nhận",
-      "createdAt": "2025-05-02T02:02:43.058Z"
-    },
-    {
-      "id": "5",
-      "userId": "1745293587693",
-      "username": "nhanhnhen",
-      "tutorId": "1745421209258",
-      "items": [
-        {
-          "foodId": "1",
-          "quantity": 1
-        },
-        {
-          "foodId": "2",
-          "quantity": 2
-        }
-      ],
-      "totalAmount": 176512,
-      "status": "Chờ xác nhận",
-      "createdAt": "2025-05-01T02:02:43.058Z"
-    },
-    {
-      "id": "6",
-      "userId": "1745293587693",
-      "username": "nhanhnhen",
-      "tutorId": "1745348611792",
-      "items": [
-        {
-          "foodId": "1",
-          "quantity": 3
-        },
-        {
-          "foodId": "1",
-          "quantity": 2
-        }
-      ],
-      "totalAmount": 145141,
-      "status": "Chờ xác nhận",
-      "createdAt": "2025-04-28T02:02:43.058Z"
-    },
-    {
-      "id": "7",
-      "userId": "1745293587693",
-      "username": "nhanhnhen",
-      "tutorId": "1745348611792",
-      "items": [
-        {
-          "foodId": "2",
-          "quantity": 1
-        },
-        {
-          "foodId": "2",
-          "quantity": 2
-        }
-      ],
-      "totalAmount": 114150,
-      "status": "Chờ xác nhận",
-      "createdAt": "2025-05-02T02:02:43.058Z"
-    },
-    {
-      "id": "8",
-      "userId": "1745293587693",
-      "username": "nhanhnhen",
-      "tutorId": "1745348611792",
-      "items": [
-        {
-          "foodId": "1",
-          "quantity": 1
-        },
-        {
-          "foodId": "2",
-          "quantity": 1
-        }
-      ],
-      "totalAmount": 105476,
-      "status": "Chờ xác nhận",
-      "createdAt": "2025-04-27T02:02:43.058Z"
-    },
-    {
-      "id": "9",
-      "userId": "1745293587693",
-      "username": "nhanhnhen",
-      "tutorId": "1745348611792",
-      "items": [
-        {
-          "foodId": "2",
-          "quantity": 1
-        },
-        {
-          "foodId": "2",
-          "quantity": 1
-        }
-      ],
-      "totalAmount": 108303,
-      "status": "Chờ xác nhận",
-      "createdAt": "2025-04-27T02:02:43.058Z"
-    },
-    {
-      "id": "10",
-      "userId": "1745293587693",
-      "username": "nhanhnhen",
-      "tutorId": "1745421209258",
-      "items": [
-        {
-          "foodId": "2",
-          "quantity": 3
-        },
-        {
-          "foodId": "1",
-          "quantity": 2
-        }
-      ],
-      "totalAmount": 151161,
-      "status": "Chờ xác nhận",
-      "createdAt": "2025-04-27T02:02:43.058Z"
+      "tutorId": "1764488144077",
+      "tutorCoursesID": "y5h6",
+      "createdAt": "2025-12-07T18:08:15.452Z"
     }
   ],
   "testimonials": [
     {
       "id": "1",
-      "title": "Excellent Teacher!",
-      "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, deserunt eveniet veniam. Ipsam, nam, voluptatum",
-      "name": "Mike Fisher",
-      "semester": "HK223",
-      "avatar": "ảnh",
-      "rating": 4
+      "userId": "1761580014000",
+      "title": "Excellent Learning Experience!",
+      "text": "Tôi đã học được rất nhiều từ khóa học này. Giáo viên rất nhiệt tình và phương pháp giảng dạy rất dễ hiểu. Tôi rất hài lòng với chất lượng dịch vụ.",
+      "semester": "K23",
+      "rating": 5
     },
     {
       "id": "2",
-      "title": "Best Video Tutorial!",
-      "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, deserunt eveniet veniam. Ipsam, nam, voluptatum",
-      "name": "Jean Stanley",
-      "semester": "HK232",
-      "avatar": "ảnh",
+      "userId": "1764487974214",
+      "title": "Best Course Ever!",
+      "text": "Khóa học này giúp tôi cải thiện đáng kể kỹ năng của mình. Nội dung học tập rất phong phú và thực tế. Tôi sẽ giới thiệu cho bạn bè.",
+      "semester": "K24",
       "rating": 5
     },
     {
       "id": "3",
-      "title": "Easy to Understand!",
-      "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, deserunt eveniet veniam. Ipsam, nam, voluptatum",
-      "name": "Katie Rose",
-      "semester": "HK241",
-      "avatar": "ảnh",
+      "userId": "1764487975214",
+      "title": "Highly Recommended!",
+      "text": "Trải nghiệm tuyệt vời! Hệ thống học tập rất tiện lợi và dễ sử dụng. Giáo viên hỗ trợ rất tốt khi tôi có thắc mắc.",
+      "semester": "K25",
       "rating": 4
-    }
-  ],
-  "s": [
-    {
-      "id": "1",
-      "name": "Công nghệ phần mềm",
-      "image": "images/courses/1.png",
-      "rating": 4.8,
-      "location": "TP. Hồ Chí Minh",
-      "address": "B1-101",
-      "phone": "0901234567",
-      "openTime": "Thứ 2, 4, 6 - 7:00-9:00",
-      "status": "Còn trống",
-      "prepareTime": 10,
-      "note": "",
-      "serviceFee": 0,
-      "tag": [
-        "1234567"
-      ],
-      "tutorId": "1745348611792"
-    },
-    {
-      "id": "2",
-      "name": "Mạng máy tính",
-      "image": "images/courses/2.png",
-      "rating": 4.7,
-      "location": "Cần Thơ",
-      "address": "C2-205",
-      "phone": "0902456789",
-      "openTime": "Thứ 3, 5 - 8:00-10:00",
-      "status": "Full",
-      "prepareTime": 10,
-      "note": "",
-      "serviceFee": 0,
-      "tag": [
-        1234567
-      ],
-      "tutorId": "1745421209258"
-    },
-    {
-      "id": "3",
-      "name": "Hệ cơ sở dữ liệu",
-      "image": "images/courses/3.png",
-      "rating": 4.9,
-      "location": "Đà Nẵng",
-      "address": "A3-301",
-      "phone": "0909988776",
-      "openTime": "Thứ 2, 4 - 9:00-11:00",
-      "status": "Còn trống",
-      "prepareTime": 10,
-      "note": "",
-      "serviceFee": 0,
-      "tag": [
-        1234567
-      ],
-      "tutorId": "1745348611792"
-    },
-    {
-      "id": "4",
-      "name": "Hóa đại cương",
-      "image": "images/courses/4.png",
-      "rating": 5,
-      "location": "Hà Nội",
-      "address": "D1-102",
-      "phone": "0912345678",
-      "openTime": "Thứ 3, 5, 7 - 7:30-9:30",
-      "status": "Còn trống",
-      "prepareTime": 10,
-      "note": "",
-      "serviceFee": 0,
-      "tag": [
-        1234567
-      ],
-      "tutorId": "1745421209258"
-    },
-    {
-      "id": "5",
-      "name": "Chủ nghĩa Mác-Lênin",
-      "image": "images/courses/5.png",
-      "rating": 4.6,
-      "location": "Hà Nội",
-      "address": "B2-203",
-      "phone": "0987123456",
-      "openTime": "Thứ 2, 6 - 8:30-10:30",
-      "status": "Full",
-      "prepareTime": 10,
-      "note": "",
-      "serviceFee": 0,
-      "tag": [
-        1234567
-      ],
-      "tutorId": "1745348611792"
-    },
-    {
-      "id": "6",
-      "name": "Cấu trúc dữ liệu và giải thuật",
-      "image": "images/courses/6.png",
-      "rating": 4.5,
-      "location": "TP. Hồ Chí Minh",
-      "address": "C1-104",
-      "phone": "0978765432",
-      "openTime": "Thứ 4, 6 - 9:30-11:30",
-      "status": "Còn trống",
-      "prepareTime": 10,
-      "note": "",
-      "serviceFee": 0,
-      "tag": [
-        1234567
-      ],
-      "tutorId": "1745421209258"
-    },
-    {
-      "id": "7",
-      "name": "Xấc suất thống kê",
-      "image": "images/courses/7.png",
-      "rating": 5,
-      "location": "TP. Hồ Chí Minh",
-      "address": "A2-201",
-      "phone": "0905555555",
-      "openTime": "Thứ 3, 5 - 10:00-12:00",
-      "status": "Còn trống",
-      "prepareTime": 10,
-      "note": "",
-      "serviceFee": 0,
-      "tag": [
-        1234567
-      ],
-      "tutorId": "1745348611792"
-    },
-    {
-      "id": "8",
-      "name": "Giải tích",
-      "image": "images/courses/8.png",
-      "rating": 4.7,
-      "location": "Bình Dương",
-      "address": "D2-302",
-      "phone": "0933333333",
-      "openTime": "Thứ 2, 4 - 11:00-13:00",
-      "status": "Full",
-      "prepareTime": 10,
-      "note": "",
-      "serviceFee": 0,
-      "tag": [
-        1234567
-      ],
-      "tutorId": "1745421209258"
-    },
-    {
-      "id": "9",
-      "name": "Cấu trúc rời rạc",
-      "image": "images/courses/9.png",
-      "rating": 4.8,
-      "location": "Long An",
-      "address": "B3-103",
-      "phone": "0966666666",
-      "openTime": "Thứ 5, 7 - 8:00-10:00",
-      "status": "Còn trống",
-      "prepareTime": 10,
-      "note": "",
-      "serviceFee": 0,
-      "tag": [
-        1234567
-      ],
-      "tutorId": "1745348611792"
-    },
-    {
-      "id": "10",
-      "name": "Vật lý đại cương",
-      "image": "images/courses/10.png",
-      "rating": 4.9,
-      "location": "Cà Mau",
-      "address": "C3-204",
-      "phone": "0944444444",
-      "openTime": "Thứ 2, 4, 6 - 9:00-11:00",
-      "status": "Còn trống",
-      "prepareTime": 10,
-      "note": "",
-      "serviceFee": 0,
-      "tag": [
-        1234567
-      ],
-      "tutorId": "1745421209258"
     }
   ],
   "tutorCourses": [
@@ -1353,10 +976,10 @@
       "openTime": "Thứ 2 - 7:00-9:00",
       "startDate": "2025-11-17",
       "endDate": "2025-11-27",
-      "learningMethod": "online",
+      "learningMethod": "offline",
       "status": "Còn trống",
       "rating": 0,
-      "image": "images/courses/default.png",
+      "image": "images/courses/1.png",
       "category": "",
       "location": "",
       "address": "",
@@ -1377,7 +1000,7 @@
       "learningMethod": "online",
       "status": "Còn trống",
       "rating": 0,
-      "image": "images/courses/default.png",
+      "image": "images/courses/1.png",
       "category": "",
       "location": "",
       "address": "",
@@ -1398,7 +1021,7 @@
       "learningMethod": "offline",
       "status": "Full",
       "rating": 0,
-      "image": "images/courses/default.png",
+      "image": "images/courses/2.png",
       "category": "",
       "location": "",
       "address": "",
@@ -1416,10 +1039,10 @@
       "openTime": "Thứ 4 - 9:00-11:00",
       "startDate": "2025-12-14",
       "endDate": "2025-12-24",
-      "learningMethod": "hybrid",
+      "learningMethod": "online",
       "status": "Còn trống",
       "rating": 0,
-      "image": "images/courses/default.png",
+      "image": "images/courses/3.png",
       "category": "",
       "location": "",
       "address": "",
@@ -1440,7 +1063,7 @@
       "learningMethod": "online",
       "status": "Full",
       "rating": 0,
-      "image": "images/courses/default.png",
+      "image": "images/courses/6.png",
       "category": "",
       "location": "",
       "address": "",
@@ -1461,7 +1084,7 @@
       "learningMethod": "offline",
       "status": "Còn trống",
       "rating": 0,
-      "image": "images/courses/default.png",
+      "image": "images/courses/7.png",
       "category": "",
       "location": "",
       "address": "",
@@ -1479,10 +1102,10 @@
       "openTime": "Thứ 2, 4 - 8:00-10:00",
       "startDate": "2026-01-04",
       "endDate": "2026-01-14",
-      "learningMethod": "hybrid",
+      "learningMethod": "offline",
       "status": "Full",
       "rating": 0,
-      "image": "images/courses/default.png",
+      "image": "images/courses/8.png",
       "category": "",
       "location": "",
       "address": "",
@@ -1503,7 +1126,7 @@
       "learningMethod": "online",
       "status": "Còn trống",
       "rating": 0,
-      "image": "images/courses/default.png",
+      "image": "images/courses/9.png",
       "category": "",
       "location": "",
       "address": "",
@@ -1524,7 +1147,7 @@
       "learningMethod": "offline",
       "status": "Full",
       "rating": 0,
-      "image": "images/courses/default.png",
+      "image": "images/courses/10.png",
       "category": "",
       "location": "",
       "address": "",
@@ -1542,10 +1165,10 @@
       "openTime": "Thứ 3, 5, 7 - 8:00-10:00",
       "startDate": "2026-01-25",
       "endDate": "2026-02-04",
-      "learningMethod": "hybrid",
+      "learningMethod": "online",
       "status": "Còn trống",
       "rating": 0,
-      "image": "images/courses/default.png",
+      "image": "images/courses/4.png",
       "category": "",
       "location": "",
       "address": "",
@@ -1556,7 +1179,6 @@
       "tag": [],
       "createdAt": "2025-11-30T07:38:34.011Z"
     },
-    
     {
       "id": "tgia",
       "name": "Chủ nghĩa Mác-Lênin",
@@ -1567,7 +1189,7 @@
       "learningMethod": "online",
       "status": "Full",
       "rating": 0,
-      "image": "images/courses/default.png",
+      "image": "images/courses/9.png",
       "category": "",
       "location": "",
       "address": "",
@@ -1577,6 +1199,50 @@
       "note": "",
       "tag": [],
       "createdAt": "2025-11-30T07:38:34.011Z"
+    },
+    {
+      "id": "d88f",
+      "name": "Vật lý đại cương",
+      "tutorId": "1745348611792",
+      "openTime": "Thứ 2, 4, 6 - 7:00-9:00",
+      "startDate": "2025-12-14",
+      "endDate": "2025-12-21",
+      "learningMethod": "online",
+      "status": "Còn trống",
+      "rating": 0,
+      "image": "images/courses/10.png",
+      "category": "",
+      "location": "",
+      "address": "",
+      "phone": "",
+      "restname": "usertest1",
+      "prepareTime": 0,
+      "serviceFee": 0,
+      "note": "",
+      "tag": [],
+      "createdAt": "2025-12-07T17:00:28.104Z"
+    },
+    {
+      "id": "ce97",
+      "name": "Vật lý đại cương",
+      "tutorId": "1745348611792",
+      "openTime": "Thứ 3, 5, 7 - 7:00-9:00",
+      "startDate": "2025-12-15",
+      "endDate": "2025-12-22",
+      "learningMethod": "online",
+      "status": "Còn trống",
+      "rating": 0,
+      "image": "images/courses/default.png",
+      "category": "",
+      "location": "",
+      "address": "",
+      "phone": "",
+      "restname": "usertest1",
+      "prepareTime": 0,
+      "serviceFee": 0,
+      "note": "",
+      "tag": [],
+      "createdAt": "2025-12-07T18:09:37.655Z"
     }
   ]
 }

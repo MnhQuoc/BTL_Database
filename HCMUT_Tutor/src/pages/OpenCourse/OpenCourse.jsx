@@ -377,8 +377,8 @@ const OpenCourse = () => {
     }
 
     try {
-      // Tạo các courses cho mỗi time slot
-      const coursesToCreate = [];
+      // Nhóm các ngày có cùng khung giờ lại với nhau
+      const timeSlotGroups = {}; // Key: "7:00-9:00", Value: [{day: 'monday', dayNumber: 2, dayName: 'Thứ 2'}, ...]
 
       Object.keys(selectedDays).forEach(day => {
         if (!selectedDays[day]) return;
@@ -388,32 +388,72 @@ const OpenCourse = () => {
         const slots = timeSlots[day];
 
         slots.forEach(slot => {
-          // Format openTime: "Thứ 2, 4, 6 - 7:00-9:00"
           const timeStr = `${formatTime(slot.start)}-${formatTime(slot.end)}`;
-          const openTime = `${dayName} - ${timeStr}`;
-
-          coursesToCreate.push({
-            name: subjectName,
-            tutorId: currentUser.id.toString(),
-            openTime: openTime,
-            startDate: startDate,
-            endDate: endDate,
-            learningMethod: learningMethod,
-            status: 'Còn trống',
-            rating: 0,
-            image: 'images/courses/default.png',
-            category: '',
-            location: '',
-            address: '',
-            phone: currentUser.phone || '',
-            restname: currentUser.name || currentUser.username || '',
-            prepareTime: 0,
-            serviceFee: 0,
-            note: '',
-            tag: [],
-            // Thêm các trường bổ sung
-            createdAt: new Date().toISOString()
+          
+          if (!timeSlotGroups[timeStr]) {
+            timeSlotGroups[timeStr] = [];
+          }
+          
+          timeSlotGroups[timeStr].push({
+            day: day,
+            dayNumber: dayNumber,
+            dayName: dayName
           });
+        });
+      });
+
+      // Tạo courses cho mỗi nhóm khung giờ
+      const coursesToCreate = [];
+
+      Object.keys(timeSlotGroups).forEach(timeStr => {
+        const daysInGroup = timeSlotGroups[timeStr];
+        
+        // Sắp xếp các ngày theo thứ tự (2, 3, 4, 5, 6, 7, CN)
+        daysInGroup.sort((a, b) => {
+          // Chủ nhật (1) nên đứng cuối
+          if (a.dayNumber === 1) return 1;
+          if (b.dayNumber === 1) return -1;
+          return a.dayNumber - b.dayNumber;
+        });
+
+        // Tạo chuỗi ngày: "Thứ 2, 4, 6" hoặc "Chủ nhật" hoặc "Thứ 2, CN"
+        const dayParts = daysInGroup.map(d => {
+          if (d.dayNumber === 1) return 'CN';
+          return d.dayNumber.toString();
+        });
+        
+        // Nếu có Chủ nhật và các ngày khác, đặt Chủ nhật ở cuối
+        const hasSunday = dayParts.includes('CN');
+        const otherDays = dayParts.filter(d => d !== 'CN');
+        const sortedDays = hasSunday ? [...otherDays, 'CN'] : otherDays;
+        
+        // Nếu chỉ có Chủ nhật, dùng "Chủ nhật", ngược lại dùng "Thứ X, Y, CN"
+        const dayNamesStr = sortedDays.length === 1 && sortedDays[0] === 'CN' 
+          ? 'Chủ nhật' 
+          : `Thứ ${sortedDays.join(', ')}`;
+        const openTime = `${dayNamesStr} - ${timeStr}`;
+
+        coursesToCreate.push({
+          name: subjectName,
+          tutorId: currentUser.id.toString(),
+          openTime: openTime,
+          startDate: startDate,
+          endDate: endDate,
+          learningMethod: learningMethod,
+          status: 'Còn trống',
+          rating: 0,
+          image: 'images/courses/default.png',
+          category: '',
+          location: '',
+          address: '',
+          phone: currentUser.phone || '',
+          restname: currentUser.name || currentUser.username || '',
+          prepareTime: 0,
+          serviceFee: 0,
+          note: '',
+          tag: [],
+          // Thêm các trường bổ sung
+          createdAt: new Date().toISOString()
         });
       });
 

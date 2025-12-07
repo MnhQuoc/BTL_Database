@@ -16,6 +16,8 @@ const Profile = () => {
   const [adminUsers, setAdminUsers] = useState([]);
   const [adminLoading, setAdminLoading] = useState(false);
   const [adminError, setAdminError] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
   const navigate = useNavigate();
 
   // Kiểm tra xem thông tin có được điền đầy đủ không
@@ -141,6 +143,19 @@ const Profile = () => {
     return adminUsers;
   }, [adminTab, adminUsers]);
 
+  // Tính toán phân trang
+  const totalPages = Math.ceil(filteredAdminUsers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedUsers = filteredAdminUsers.slice(startIndex, endIndex);
+
+  // Reset về trang 1 nếu trang hiện tại vượt quá tổng số trang
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(1);
+    }
+  }, [totalPages, currentPage]);
+
   if (userRole === 'admin') {
     return (
       <div className="admin-profile-layout">
@@ -150,14 +165,20 @@ const Profile = () => {
             <button
               type="button"
               className={`admin-nav-item ${adminTab === 'student' ? 'active' : ''}`}
-              onClick={() => setAdminTab('student')}
+              onClick={() => {
+                setAdminTab('student');
+                setCurrentPage(1);
+              }}
             >
               Student
             </button>
             <button
               type="button"
               className={`admin-nav-item ${adminTab === 'tutor' ? 'active' : ''}`}
-              onClick={() => setAdminTab('tutor')}
+              onClick={() => {
+                setAdminTab('tutor');
+                setCurrentPage(1);
+              }}
             >
               Tutor
             </button>
@@ -183,37 +204,62 @@ const Profile = () => {
               <div className="admin-state">Chưa có dữ liệu để hiển thị</div>
             )}
             {!adminLoading && !adminError && filteredAdminUsers.length > 0 && (
-              <div className="admin-table-wrapper">
-                <table className="admin-table">
-                  <thead>
-                    <tr>
-                      <th>STT</th>
-                      <th>Họ và tên</th>
-                      <th>Năm sinh</th>
-                      <th>SĐT</th>
-                      <th>Email</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredAdminUsers.map((user, index) => {
-                      const displayName = user.fullName || user.name || user.username || '—';
-                      const birthYear =
-                        user.birthYear || user.yearOfBirth || user.dobYear || '—';
-                      const phone = user.phone || '—';
-                      const email = user.email || '—';
-                      return (
-                        <tr key={user.id || index}>
-                          <td>{index + 1}</td>
-                          <td>{displayName}</td>
-                          <td>{birthYear}</td>
-                          <td>{phone}</td>
-                          <td>{email}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+              <>
+                <div className="admin-table-wrapper">
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th>STT</th>
+                        <th>Họ và tên</th>
+                        <th>Năm sinh</th>
+                        <th>SĐT</th>
+                        <th>Email</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {paginatedUsers.map((user, index) => {
+                        const displayName = user.fullName || user.name || user.username || '—';
+                        const birthYear =
+                          user.birthYear || user.yearOfBirth || user.dobYear || '—';
+                        const phone = user.phone || '—';
+                        const email = user.email || '—';
+                        return (
+                          <tr key={user.id || index}>
+                            <td>{startIndex + index + 1}</td>
+                            <td>{displayName}</td>
+                            <td>{birthYear}</td>
+                            <td>{phone}</td>
+                            <td>{email}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+                {totalPages > 1 && (
+                  <div className="admin-pagination">
+                    <button
+                      type="button"
+                      className="admin-pagination-btn"
+                      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                      disabled={currentPage === 1}
+                    >
+                      Trước
+                    </button>
+                    <div className="admin-pagination-info">
+                      Trang {currentPage} / {totalPages}
+                    </div>
+                    <button
+                      type="button"
+                      className="admin-pagination-btn"
+                      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                      disabled={currentPage === totalPages}
+                    >
+                      Sau
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </section>
