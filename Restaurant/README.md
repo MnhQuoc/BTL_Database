@@ -1,4 +1,4 @@
-# BTL CNPM - Nhóm 5
+# Restaurant Management System - Nhóm 5
 
 - Khách hàng: HCMUT
 - Mentor: 
