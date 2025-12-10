@@ -1,6 +1,6 @@
-# BTL CNPM - Nhóm 5
+# Restaurant Management System - Nhóm 5
 
-- Khách hàng: HCMUT
+- Dự án: Hệ thống quản lý nhà hàng
 - Mentor: 
 - Develop Team:
   - [Nguyễn Minh Quốc](https://github.com/MnhQuoc) (nguyenminhquoc812005@gmail.com)
@@ -21,6 +21,7 @@
   - Icons: React Icons
   - Email Service: EmailJS
   - Styling: SASS
+  - Backend: JSON Server
 
 
 ## Scripts

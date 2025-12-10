@@ -1,0 +1,255 @@
+#language-dropdown {
+    color: white;
+    padding-right: 20px;
+    position: relative;
+}
+
+#language-dropdown img {
+    width: 20px;
+    height: auto;
+    margin-right: 5px;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+
+#language-dropdown.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    min-width: 120px;
+}
+
+#language-dropdown.dropdown-toggle::after {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Shopping cart hover effect */
+.ms-3.position-relative.text-light {
+    transition: color 0.2s ease;
+}
+
+.ms-3.position-relative.text-light:hover {
+    color: #0d6efd !important;
+}
+
+/* Tooltip styling */
+.tooltip {
+    font-size: 0.875rem;
+}
+
+/* Hero header styles */
+.hero-header {
+    position: relative;
+    background-image: url('/images/hero-bg.jpg'); 
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+
+/* Hide hero background when logged in */
+.hero-header.logged-in {
+    background-image: none;
+    background-color: #282828;
+}
+
+.hero-header.logged-in::before {
+    display: none;
+}
+
+.hero-header.logged-in .top-nav {
+    background-color: #282828;
+}
+
+.hero-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 0;
+}
+
+.top-nav {
+    position: relative;
+    z-index: 2;
+    padding: 12px 0;
+}
+
+/* tighten the container inside top-nav so left/right gaps are smaller */
+.top-nav .container {
+    /* override bootstrap .container max-width so nav can span full viewport */
+    max-width: 88% ;
+    width: 88% ;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+
+.top-nav .brand {
+    margin-left: 8px;
+}
+
+.top-nav .brand {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+}
+
+.top-nav .logo {
+    height: 3em;
+    padding: 0.5em;
+}
+
+.top-nav .nav-links .nav-link {
+    color: rgba(255,255,255,0.9);
+    margin-left: 18px;
+    text-decoration: none;
+}
+
+.top-nav .nav-links .nav-link:hover {
+    color: #f8f9fa;
+}
+/* login button outline styling */
+.top-nav .login-btn {
+    background: #0d6efd ;
+    color: #f5f5f6 !important; /* blue text */
+    border: 2px solid #0d6efd;
+    border-radius: 6px;
+    padding: 6px 12px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.top-nav .login-btn:hover {
+    background: #0d6efd !important;
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 200px 0; /* spacing to vertically center title on large screens */
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 3.2rem;
+    color: #fff;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.hero-title strong {
+    font-weight: 700;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    .top-nav .nav-links { display: none !important; }
+}
+
+/* Make img_1 fill the entire left column in the site-section overlap layout */
+.site-section.bg-light .row.overlap .col-lg-8 .box {
+    padding: 0;
+}
+.site-section.bg-light .row.overlap .col-lg-8 .box .d-flex {
+    display: flex;
+    flex-direction: column; /* stack image above text so image can fill the column */
+    height: 100%;
+}
+.site-section.bg-light .row.overlap .col-lg-8 .img {
+    width: 100%;
+    height: 420px; /* adjust as needed, or use min-height */
+    overflow: hidden;
+}
+.site-section.bg-light .row.overlap .col-lg-8 .img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.site-section.bg-light .row.overlap .col-lg-8 .text {
+    padding: 24px;
+}
+
+/* Allow the site-section to overlap the hero area */
+.site-section.bg-light {
+    margin-top: -140px; /* pulls the white block up over the hero */
+    position: relative;
+    z-index: 15; /* above hero overlay but below any nav if needed */
+}
+
+.site-section.bg-light .box {
+    background: #ffffff;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+    border-radius: 2px;
+}
+
+/* If there's no hero image at provided path, use a soft gradient */
+.hero-header[style*="background-image"]:not([style*="hero-bg.jpg"]) {
+    background: linear-gradient(90deg, rgba(34,34,34,0.6), rgba(34,34,34,0.6));
+}
+
+/* Prevent browser default yellow highlight / focus styles on the login button */
+.top-nav .login-btn,
+.top-nav .login-btn:visited {
+    -webkit-tap-highlight-color: transparent;
+    background: #0d6efd !important;
+    color: #f5f5f6 !important;
+    text-decoration: none !important;
+}
+.top-nav .login-btn:hover,
+.top-nav .login-btn:active,
+.top-nav .login-btn:focus,
+.top-nav .login-btn:focus-visible {
+    background: #0d6efd !important;
+    color: #fff !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* For accessibility keep visible focus styles but use a subtle ring instead of yellow */
+.top-nav .login-btn:focus-visible {
+    box-shadow: 0 0 0 3px rgba(13,110,253,0.18) !important;
+}
+
+/* Reusable pill button class so other pages (e.g. /login) can match navbar */
+.pill-btn {
+    background: #ffd966 !important; /* warm yellow */
+    color: #111827 !important; /* near-black text for contrast */
+    border: 2px solid rgba(0,0,0,0.06) !important;
+    border-radius: 999px !important; /* pill shape */
+    padding: 10px 36px !important;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(255, 209, 102, 0.18);
+    transition: transform 0.08s ease, box-shadow 0.12s ease, background 0.12s ease;
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.pill-btn:hover {
+    background: #ffd54a !important; /* slightly deeper on hover */
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(255, 209, 102, 0.22);
+    width: 30%;
+    height: 30%;
+}
+.pill-btn:disabled,
+.pill-btn[disabled] {
+    opacity: 0.7;
+    transform: none;
+    box-shadow: none;
+}

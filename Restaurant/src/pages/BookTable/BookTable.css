@@ -1,0 +1,94 @@
+.book-table-container {
+  padding: 40px 20px;
+  min-height: 70vh;
+}
+
+.book-table-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.book-table-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.book-table-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+.book-table-card {
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 12px;
+}
+
+.book-table-card .card-body {
+  padding: 30px;
+}
+
+.book-table-card .form-label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.book-table-card .form-control {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+}
+
+.book-table-card .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.book-table-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.book-table-actions .btn {
+  padding: 10px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .book-table-container {
+    padding: 20px 15px;
+  }
+
+  .book-table-title {
+    font-size: 24px;
+  }
+
+  .book-table-card .card-body {
+    padding: 20px;
+  }
+
+  .book-table-actions {
+    flex-direction: column;
+  }
+
+  .book-table-actions .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .book-table-actions .btn.me-2 {
+    margin-right: 0 !important;
+  }
+}
+

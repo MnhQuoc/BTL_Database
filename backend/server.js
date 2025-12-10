@@ -68,63 +68,76 @@ server.get('/verify/:id', (req, res) => {
   res.send('Xác minh tài khoản thành công!');
 });
 
-// ✅ Middleware kiểm tra: mỗi tutor chỉ dạy 1 môn (có thể có nhiều khung giờ) - cho tutorCourses
-server.use('/tutorCourses', (req, res, next) => {
+// ✅ Middleware kiểm tra: mỗi staff chỉ quản lý 1 món (có thể có nhiều khung giờ) - cho menu
+server.use('/menu', (req, res, next) => {
   if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
     const db = router.db;
-    const courseData = req.body;
-    const tutorId = courseData.tutorId;
-    const subjectName = courseData.name;
+    const menuData = req.body;
+    const staffId = menuData.tutorId || menuData.staffId;
+    const dishName = menuData.name;
 
-    if (!tutorId || !subjectName) {
+    if (!staffId || !dishName) {
       return next(); // Let json-server handle missing fields
     }
 
-    // Lấy tất cả courses của tutor này từ tutorCourses
-    const tutorCourses = db.get('tutorCourses')
-      .filter(course => String(course.tutorId) === String(tutorId))
+    // Lấy tất cả món của staff này từ menu
+    const menuItems = db.get('menu')
+      .filter(item => String(item.tutorId || item.staffId) === String(staffId))
       .value();
 
     if (req.method === 'POST') {
-      // Khi tạo mới: kiểm tra xem tutor đã có môn nào khác chưa
-      if (tutorCourses.length > 0) {
-        const existingSubject = tutorCourses[0].name;
-        if (existingSubject !== subjectName) {
+      // Khi tạo mới: kiểm tra xem staff đã có món nào khác chưa
+      if (menuItems.length > 0) {
+        const existingDish = menuItems[0].name;
+        if (existingDish !== dishName) {
           return res.status(400).json({
-            error: 'Mỗi tutor chỉ được dạy 1 môn học. Bạn đã có môn: ' + existingSubject + '. Vui lòng thêm khung giờ mới cho môn này thay vì tạo môn mới.'
+            error: 'Mỗi staff chỉ được quản lý 1 món ăn. Bạn đã có món: ' + existingDish + '. Vui lòng thêm khung giờ mới cho món này thay vì tạo món mới.'
           });
         }
       }
     } else if (req.method === 'PUT' || req.method === 'PATCH') {
-      // Khi cập nhật: kiểm tra xem có đang đổi sang môn khác không
-      // Lấy courseId từ URL (ví dụ: /tutorCourses/1 hoặc /1)
-      let courseId = null;
+      // Khi cập nhật: kiểm tra xem có đang đổi sang món khác không
+      // Lấy menuId từ URL (ví dụ: /menu/1 hoặc /1)
+      let menuId = null;
       const urlPath = req.url.split('?')[0]; // Bỏ query parameters
       const urlParts = urlPath.split('/').filter(part => part);
       
-      // Tìm courseId trong URL (số hoặc chuỗi)
+      // Tìm menuId trong URL (số hoặc chuỗi)
       for (let i = urlParts.length - 1; i >= 0; i--) {
         const part = urlParts[i];
-        if (part && part !== 'tutorCourses') {
-          courseId = part;
+        if (part && part !== 'menu') {
+          menuId = part;
           break;
         }
       }
       
-      if (courseId) {
-        const otherCourses = tutorCourses.filter(course => String(course.id) !== String(courseId));
+      if (menuId) {
+        const otherItems = menuItems.filter(item => String(item.id) !== String(menuId));
         
-        if (otherCourses.length > 0) {
-          const existingSubject = otherCourses[0].name;
-          if (existingSubject !== subjectName) {
+        if (otherItems.length > 0) {
+          const existingDish = otherItems[0].name;
+          if (existingDish !== dishName) {
             return res.status(400).json({
-              error: 'Mỗi tutor chỉ được dạy 1 môn học. Bạn đã có môn: ' + existingSubject + '. Không thể đổi sang môn khác.'
+              error: 'Mỗi staff chỉ được quản lý 1 món ăn. Bạn đã có món: ' + existingDish + '. Không thể đổi sang món khác.'
             });
           }
         }
       }
     }
   }
+  next();
+});
+
+// Redirect từ tutorCourses sang menu để tương thích ngược
+server.use('/tutorCourses', (req, res, next) => {
+  // Redirect GET requests
+  if (req.method === 'GET') {
+    const db = router.db;
+    const menuData = db.get('menu').value();
+    return res.json(menuData);
+  }
+  // For other methods, redirect to /menu
+  req.url = req.url.replace('/tutorCourses', '/menu');
   next();
 });
 
