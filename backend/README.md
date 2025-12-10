@@ -1,6 +1,6 @@
 # Backend API 
 
-Đây là API backend cho BTL CNPM sử dụng json-server để mô phỏng REST API.
+Đây là API backend cho BTL_Database sử dụng json-server để mô phỏng REST API.
 
 ## Giới thiệu
 
